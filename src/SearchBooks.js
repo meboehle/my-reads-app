@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import ViewBook from './ViewBook';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import debounce from 'lodash.debounce';
 import * as BooksAPI from './BooksAPI';
 
 class SearchBooks extends Component {
   state = {
     filteredBooks: [],
   }
+
+  delayedSearch = debounce(q => this.searchBooks(q), 500);
 
   searchBooks = (query) => {
     if (query) {
@@ -43,8 +46,7 @@ class SearchBooks extends Component {
           <input
             type='text'
             placeholder='Search by title or author'
-            onChange={(e) => this.searchBooks(e.target.value)}
-          />
+            onChange={(e) => this.delayedSearch(e.target.value)}/>
         </div>
         <div className='search-books-results'>
           <ol className='books-grid'>
