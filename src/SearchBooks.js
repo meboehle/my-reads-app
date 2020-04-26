@@ -54,7 +54,7 @@ class SearchBooks extends Component {
              this.state.filteredBooks.length > 0 &&
              this.state.filteredBooks.map(book => (
               <li key={book.id}>
-                <ViewBook book={book}/>
+                <ViewBook book={book} refreshBooks={this.props.refreshBooks}/>
               </li>
             ))}
           </ol>
@@ -66,6 +66,7 @@ class SearchBooks extends Component {
 
 SearchBooks.propTypes = {
   shelvedBooks: PropTypes.array.isRequired,
+  refreshBooks: PropTypes.func.isRequired
 }
 
 export default SearchBooks;

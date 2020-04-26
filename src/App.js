@@ -33,7 +33,10 @@ class App extends Component {
           />
         </Route>
         <Route path='/search'>
-          <SearchBooks shelvedBooks={this.state.allBooks} />
+          <SearchBooks
+            shelvedBooks={this.state.allBooks}
+            refreshBooks={() => this.refreshBooks()}
+          />
         </Route>
       </div>
     )
