@@ -3,25 +3,35 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Bookshelf from './Bookshelf';
 
-function ListBooks(props) {
+const SHELVES = [
+  {
+    title: 'Currently Reading',
+    id: 'currentlyReading'
+  },
+  {
+    title: 'Want To Read',
+    id: 'wantToRead'
+  },
+  {
+    title: 'Read',
+    id: 'read'
+  }
+];
+function ListBooks({books, refreshBooks}) {
   return(
     <div className='list-books'>
       <div className='list-books-title'>
         <h1>MyReads</h1>
       </div>
       <div className='list-books-content'>
-        <Bookshelf
-          shelf='Currently Reading'
-          books={props.currentlyReadingBooks}
-        />
-        <Bookshelf
-          shelf='Want to Read'
-          books={props.wantToReadBooks}
-        />
-        <Bookshelf
-          shelf='Read Books'
-          books={props.readBooks}
-        />
+        {SHELVES.map(shelf => (
+          <Bookshelf
+            key={shelf.id}
+            shelf={shelf.title}
+            books={books.filter(book => book.shelf === shelf.id)}
+            refreshBooks={refreshBooks}
+          />
+        ))}
       </div>
       <Link to='/search' className='open-search'>
         <button>Add a book</button>
@@ -31,9 +41,8 @@ function ListBooks(props) {
 }
 
 ListBooks.propTypes = {
-  currentlyReadingBooks: PropTypes.array.isRequired,
-  wantToReadBooks: PropTypes.array.isRequired,
-  readBooks: PropTypes.array.isRequired
+  books: PropTypes.array.isRequired,
+  refreshBooks: PropTypes.func.isRequired,
 }
 
 export default ListBooks;
