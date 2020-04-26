@@ -4,22 +4,29 @@ import MoveBook from './MoveBook';
 import * as BooksAPI from './BooksAPI';
 
 class ViewBook extends Component {
-
   onMoveBook = (shelf, book) => {
+    this.props.refreshBooks();
     BooksAPI.update(book, shelf);
   }
 
   render() {
+    const {book} = this.props;
     return (
       <div className='book'>
         <div className='book-top'>
           <div className='book-cover'>
-            <img src={this.props.book.imageLinks.thumbnail} alt='book cover' width='128' height='199'/>
+            {book.imageLinks &&
+              <img
+                src={book.imageLinks.thumbnail || book.imageLinks.smallThumbnail}
+                alt='book cover'
+                width='128'
+                height='199'
+              />}
           </div>
-          <MoveBook book={this.props.book} onMoveBook={this.onMoveBook}/>
+          <MoveBook book={book} onMoveBook={this.onMoveBook}/>
         </div>
-        <div className='book-title'>{this.props.book.title}</div>
-        {this.props.book.authors && this.props.book.authors.map(author => (
+        <div className='book-title'>{book.title}</div>
+        {book.authors && book.authors.map(author => (
           <div key={author} className='book-authors'>
             {author}
           </div>
@@ -31,6 +38,7 @@ class ViewBook extends Component {
 
 ViewBook.propTypes = {
   book: PropTypes.object.isRequired,
+  refreshBooks: PropTypes.func.isRequired
 }
 
 export default ViewBook;
